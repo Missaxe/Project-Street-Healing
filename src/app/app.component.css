@@ -1,0 +1,17 @@
+/*Css File for styling the APP Component*/
+
+.buttons-container {
+    position: absolute;
+    justify-content: space-evenly;
+    display: flex;
+    margin: auto;
+    width: 300px;
+    top: 20px;
+    right: 0px;
+  }
+  
+  .btn-signup, .btn-login {
+    background-color: #ffecf2 !important;
+    font-weight: bold;
+  }
+  

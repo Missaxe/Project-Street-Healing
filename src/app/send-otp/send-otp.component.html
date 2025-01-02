@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" type="text/css" href="send-otp.component.css" />
+  </head>
+  <body>
+    <form id="generateotp" #generateotp="ngForm" (ngSubmit)="onGet()">
+      <div class="mb-3">
+        <label for="password"
+          >A 6-digit code has been sent to your email. Please enter it within
+          the next 30 minutes.</label
+        >
+      </div>
+      <div class="mb-3">
+        <div class="text-danger text-center mb-3" *ngIf="messageOtp != ''">
+          {{ messageOtp }}
+        </div>
+        <div class="tokenverification">
+          <input
+            type="text"
+            required
+            placeholder="Enter your 6-digit code here"
+          />
+
+          <button
+            type="button"
+            (click)="sendCode()"
+            style="text-align: center; white-space: nowrap"
+          >
+            Send Code
+          </button>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="buttons-container">
+          <button type="submit" routerLink="/signup">Go Back</button>
+          <button type="submit" [disabled]="">Submit</button>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

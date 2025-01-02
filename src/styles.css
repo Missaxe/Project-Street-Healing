@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+/*Css File for the general styles of the whole app*/
+body {
+    background-color: lightpink !important;
+  }
+  
