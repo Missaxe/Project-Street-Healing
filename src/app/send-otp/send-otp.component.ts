@@ -13,6 +13,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SendOtpComponent {
   messageOtp: string = '';
+  otpValue: string = '';
+  responseOtp: string = '';
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -24,18 +27,31 @@ export class SendOtpComponent {
   onGet(): void {}
   sendCode() {
     this.http
-      .post<{ id: string }>(
-        'https://localhost:7066/api/User/sendToken',
+      .post<{ id: number; otp: string }>(
+        'https://localhost:7066/api/User/sendOtp',
         +this.route.snapshot.params['id']
       )
       .subscribe({
         next: (response) => {
-          this.messageOtp = 'a code was sent into your email ';
-          console.log('Success', response);
+          this.messageOtp = 'Code sent, check your email ';
+          this.responseOtp = response.otp;
+          console.log('Success', response.otp);
         },
         error: (error) => {
           console.error('Error', error);
         },
       });
+  }
+  onSubmit(): void {
+    if (this.responseOtp === this.otpValue) {
+      console.log('responseOtp', this.responseOtp);
+      console.log('otpValue', this.otpValue);
+
+      this.router.navigate(['/home']);
+    } else {
+      console.log('responseOtp', this.responseOtp);
+      console.log('otpValue', this.otpValue);
+      this.messageOtp = 'Otp is not valid ';
+    }
   }
 }

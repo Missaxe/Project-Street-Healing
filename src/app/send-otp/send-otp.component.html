@@ -6,9 +6,14 @@
     <link rel="stylesheet" type="text/css" href="send-otp.component.css" />
   </head>
   <body>
-    <form id="generateotp" #generateotp="ngForm" (ngSubmit)="onGet()">
+    <form
+      id="generateotp"
+      #generateotp="ngForm"
+      name="formgenerateotp"
+      (ngSubmit)="onSubmit()"
+    >
       <div class="mb-3">
-        <label for="password"
+        <label
           >A 6-digit code has been sent to your email. Please enter it within
           the next 30 minutes.</label
         >
@@ -19,9 +24,12 @@
         </div>
         <div class="tokenverification">
           <input
-            type="text"
             required
             placeholder="Enter your 6-digit code here"
+            type="text"
+            #otpModel="ngModel"
+            name="otpinput"
+            [(ngModel)]="otpValue"
           />
 
           <button
@@ -36,7 +44,7 @@
       <div class="mb-3">
         <div class="buttons-container">
           <button type="submit" routerLink="/signup">Go Back</button>
-          <button type="submit" [disabled]="">Submit</button>
+          <button type="submit" [disabled]="otpModel.invalid">Submit</button>
         </div>
       </div>
     </form>

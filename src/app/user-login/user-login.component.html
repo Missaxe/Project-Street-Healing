@@ -7,14 +7,59 @@
   </head>
   <body>
     <h1>Login</h1>
-    <form>
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required />
-
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
-      <button type="submit">Login</button>
-      <p><a href="/signup">Go back to SignUp ?</a></p>
+    <form
+      id="loginform"
+      name="formlogin"
+      #login="ngForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div class="mb-3">
+        <div
+          *ngIf="emailModel.invalid && (emailModel.touched || emailModel.dirty)"
+        >
+          <div class="text-danger" *ngIf="emailModel.errors?.['required']">
+            Email Is Required
+          </div>
+        </div>
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          required
+          placeholder="Enter your email here"
+          type="email"
+          #emailModel="ngModel"
+          name="emailinput"
+          [(ngModel)]="formLogin.emailValue"
+        />
+      </div>
+      <div class="mb-3">
+        <div
+          *ngIf="
+            passwordModel.invalid &&
+            (passwordModel.touched || passwordModel.dirty)
+          "
+        >
+          <div class="text-danger" *ngIf="passwordModel.errors?.['required']">
+            Password Is Required
+          </div>
+        </div>
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          required
+          placeholder="Enter your password here"
+          type="password"
+          #passwordModel="ngModel"
+          name="passwordinput"
+          [(ngModel)]="formLogin.passwordValue"
+        />
+      </div>
+      <div class="mb-3">
+        <button type="submit" [disabled]="login.invalid">Login</button>
+        <p><a href="/signup">Go back to SignUp ?</a></p>
+      </div>
     </form>
   </body>
 </html>

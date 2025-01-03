@@ -14,8 +14,7 @@ body {
   form {
     border: 2px solid #ccc;
     background-color: #fff;
-    width: fit-content;
-    height: 300px;
+    width: 300px;
     margin: 0 auto;
     padding: 20px;
   }
@@ -46,8 +45,8 @@ body {
     cursor: pointer;
     float: right;
   }
-  
-    button[type="submit"]:hover {
-      background-color: #45a049;
-    }
+  button[type="submit"]:disabled {
+    background-color: gray;
+  }
+
   
