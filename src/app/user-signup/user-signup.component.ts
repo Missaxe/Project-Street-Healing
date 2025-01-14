@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel, AbstractControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ValidationMessages } from '../shared/messages';
+import { UserService } from '../api-services/user.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-user-signup',
@@ -14,7 +17,7 @@ import { CommonModule } from '@angular/common';
 export class UserSignupComponent {
   errorMessage: string = '';
 
-  formData = {
+  user: User = {
     firstname: '',
     lastname: '',
     email: '',
@@ -22,50 +25,36 @@ export class UserSignupComponent {
     phonenumber: '',
     confirmpassword: '',
   };
+  validationMessages = ValidationMessages;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private userService: UserService
+  ) {
     // This service can now make HTTP requests via `this.http`.
   }
 
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
+  toggleFieldVisibility(field: 'password' | 'confirmPassword'): void {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
   }
 
-  toggleConfirmPasswordVisibility(): void {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
-
-  onSubmit() {
-    this.http
-      .post<{ id: string }>(
-        'https://localhost:7066/api/User/register',
-        this.formData
-      )
-      .subscribe({
-        next: (response) => {
-          console.log('Success', response);
-          this.router.navigate(['/sendotp', response.id]);
-        },
-        error: (error) => {
-          this.errorMessage = error.error.message;
-          console.error('Error', error);
-        },
-      });
-  }
-
-  onGet() {
-    this.http
-      .post('https://localhost:7066/api/User/register', this.formData)
-      .subscribe({
-        next: (response) => {
-          console.log('Success', response);
-        },
-        error: (error) => {
-          this.errorMessage = error.error.message;
-          console.error('Error', error);
-        },
-      });
+  onSubmit(): void {
+    this.userService.createUser(this.user).subscribe({
+      next: (response) => {
+        console.log('Success', response);
+        this.router.navigate(['/sendotp', response.id]);
+      },
+      error: (error) => {
+        this.errorMessage = error.error.message;
+        console.error('Error', error);
+      },
+    });
   }
 }
