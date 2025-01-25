@@ -1,3 +1,6 @@
+<div *ngIf="showError" class="alert alert-danger" role="alert">
+  {{ errorMessage }}
+</div>
 <button type="submit" (click)="externalLogin()">
   <svg
     xmlns="http://www.w3.org/2000/svg"
