@@ -8,11 +8,16 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrlRegister = `${environment.apiUserUrl}/register`;
+  private apiUrlRegister = `${environment.apiUserRegister}/register`;
+  private apiUrlLogin = `${environment.apiLUserLogin}/authenticate`;
 
   constructor(private http: HttpClient) {}
 
   createUser(user: User): Observable<{ id: string }> {
     return this.http.post<{ id: string }>(this.apiUrlRegister, user);
+  }
+
+  loginUser(user: User): Observable<{ id: string }> {
+    return this.http.post<{ id: string }>(this.apiUrlLogin, user);
   }
 }

@@ -45,6 +45,7 @@ button[type="submit"] {
   background-color: #4caf50;
   color: #fff;
   border: none;
+  margin-top: 20px;
   padding: 12px 20px;
   border-radius: 4px;
   cursor: pointer;

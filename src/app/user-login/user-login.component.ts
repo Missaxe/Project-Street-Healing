@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { UserService } from '../api-services/user.service';
+import { User } from '../models/user';
 @Component({
   selector: 'app-user-login',
   standalone: true,
@@ -12,28 +13,37 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './user-login.component.css',
 })
 export class UserLoginComponent {
-  formLogin = {
-    emailValue: '',
-    passwordValue: '',
+  errorMessage: string = '';
+  showError: boolean = false;
+  user: User = {
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: '',
+    phonenumber: '',
+    confirmpassword: '',
   };
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+    private router: Router
+  ) {
     // This service can now make HTTP requests via `this.http`.
   }
 
-  onSubmit() {
-    this.http
-      .post('https://localhost:7066/api/User/authenticate', this.formLogin)
-      .subscribe({
-        next: (response) => {
-          console.log('Success', response);
-          this.router.navigate(['/home']);
-        },
-        error: (error) => {
-          console.error('Error', error);
-          console.log('email', this.formLogin.emailValue);
-          console.log('email', this.formLogin.passwordValue);
-        },
-      });
+  onSubmit(): void {
+    this.userService.loginUser(this.user).subscribe({
+      next: (response) => {
+        console.log('Success', response);
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        this.errorMessage = error.error.message;
+        console.error('Error', error);
+        console.log('email', this.user.email);
+        console.log('email', this.user.password);
+      },
+    });
   }
 }

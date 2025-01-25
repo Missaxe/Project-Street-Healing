@@ -1,20 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgModel, AbstractControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ValidationMessages } from '../shared/messages';
 import { UserService } from '../api-services/user.service';
 import { User } from '../models/user';
+import { GoogleSignInComponent } from '../google-sign-in/google-sign-in.component';
 
 @Component({
   selector: 'app-user-signup',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, GoogleSignInComponent],
   templateUrl: './user-signup.component.html',
   styleUrl: './user-signup.component.css',
 })
-export class UserSignupComponent {
+export class UserSignupComponent implements OnInit {
   errorMessage: string = '';
 
   user: User = {
@@ -34,6 +35,8 @@ export class UserSignupComponent {
   ) {
     // This service can now make HTTP requests via `this.http`.
   }
+
+  ngOnInit(): void {}
 
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
