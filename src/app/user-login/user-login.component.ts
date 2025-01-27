@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../api-services/user.service';
-import { User } from '../models/user';
+import { User } from '../models/User/user';
 @Component({
   selector: 'app-user-login',
   standalone: true,
