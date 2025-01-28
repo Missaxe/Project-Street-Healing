@@ -67,6 +67,8 @@ export class UserService {
   };
 
   public externalLogin = (body: ExternalAuthDto) => {
-    return this.http.post<AuthResponseDto>(this.apiGoogleSignUp, body);
+    return this.http.post<AuthResponseDto>(this.apiGoogleSignUp, body, {
+      withCredentials: true,
+    });
   };
 }
