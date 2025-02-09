@@ -16,8 +16,6 @@ export class requestInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const isApiRequest = request.url.startsWith(environment.apiUrl);
-    console.log('Hey');
-    console.log(isApiRequest);
 
     if (isApiRequest) {
       request = request.clone({
@@ -25,7 +23,6 @@ export class requestInterceptor implements HttpInterceptor {
       });
     }
     console.log(request);
-
     return next.handle(request);
   }
 }

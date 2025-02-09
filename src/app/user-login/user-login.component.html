@@ -7,15 +7,19 @@
   </head>
   <body>
     <h1>Login</h1>
-    <div *ngIf="showError" class="alert alert-danger" role="alert">
+    <!-- <div *ngIf="showError" class="alert alert-danger" role="alert">
       {{ errorMessage }}
-    </div>
+    </div> -->
+
     <form
       id="loginform"
       name="formlogin"
       #login="ngForm"
       (ngSubmit)="onSubmit()"
     >
+      <div class="text-danger text-center" *ngIf="showError">
+        {{ errorMessage }}
+      </div>
       <div class="mb-3">
         <div
           *ngIf="emailModel.invalid && (emailModel.touched || emailModel.dirty)"

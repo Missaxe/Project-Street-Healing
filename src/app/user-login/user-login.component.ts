@@ -39,6 +39,7 @@ export class UserLoginComponent {
         this.router.navigate(['/home']);
       },
       error: (error) => {
+        this.showError = true;
         this.errorMessage = error.error.message;
         console.error('Error', error);
         console.log('email', this.user.email);

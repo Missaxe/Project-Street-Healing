@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { ValidationMessages } from '../shared/messages';
 import { UserService } from '../api-services/user.service';
 import { User } from '../models/User/user';
-import { GoogleSignInComponent } from '../google-sign-in/google-sign-in.component';
+// import { GoogleSignInComponent } from '../google-sign-in/google-sign-in.component';
 
 @Component({
   selector: 'app-user-signup',
   standalone: true,
-  imports: [FormsModule, CommonModule, GoogleSignInComponent],
+  // imports: [FormsModule, CommonModule, GoogleSignInComponent],
+  imports: [FormsModule, CommonModule],
   templateUrl: './user-signup.component.html',
   styleUrl: './user-signup.component.css',
 })

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from '../api-services/user.service';
 
 @Component({
   selector: 'app-send-otp',
@@ -19,29 +20,28 @@ export class SendOtpComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {
     // This service can now make HTTP requests via `this.http`.
   }
 
   onGet(): void {}
-  sendCode() {
-    this.http
-      .post<{ id: number; otp: string }>(
-        'https://localhost:7066/api/User/sendOtp',
-        +this.route.snapshot.params['id']
-      )
-      .subscribe({
-        next: (response) => {
-          this.messageOtp = 'Code sent, check your email ';
-          this.responseOtp = response.otp;
-          console.log('Success', response.otp);
-        },
-        error: (error) => {
-          console.error('Error', error);
-        },
-      });
+
+  sendOtp(): void {
+    this.userService.sendOtp(+this.route.snapshot.params['id']).subscribe({
+      next: (response) => {
+        this.messageOtp = 'Code sent, check your email ';
+        this.responseOtp = response.otp;
+        console.log('Success', response.otp);
+      },
+      error: (error) => {
+        this.messageOtp = error.error.message;
+        console.error('Error', error);
+      },
+    });
   }
+
   onSubmit(): void {
     if (this.responseOtp === this.otpValue) {
       console.log('responseOtp', this.responseOtp);

@@ -8,6 +8,7 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { ExternalAuthDto } from '../models/google-external-auth/ExternalAuthDto';
 import { AuthResponseDto } from '../models/google-external-auth-response-dto/AuthResponseDto';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -20,30 +21,33 @@ export class UserService {
   private apiUrlRegister = `${environment.apiUserRegister}/register`;
   private apiUrlLogin = `${environment.apiLUserLogin}/authenticate`;
   private apiGoogleSignUp = `${environment.apiGoogle}/register`;
+  private apiUrSendOtp = `${environment.apiSendOtp}/sendOtp`;
   public isExternalAuth: boolean = false;
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     private externalAuthService: SocialAuthService
   ) {
-    this.externalAuthService.authState.subscribe((user) => {
-      const externalAuth: ExternalAuthDto = {
-        provider: user.provider,
-        idToken: user.idToken,
-      };
-      console.log(user);
-      this.extAuthChangeSub.next(user);
-      this.isExternalAuth = true;
-      this.externalLogin(externalAuth).subscribe({
-        next: (res) => {
-          localStorage.setItem('token', res.token);
-          this.sendAuthStateChangeNotification(res.isAuthSuccessful);
-        },
-        error: () => {
-          this.signOutExternal();
-        },
-      });
-    });
+    // this.externalAuthService.authState.subscribe((user) => {
+    //   const externalAuth: ExternalAuthDto = {
+    //     provider: user.provider,
+    //     idToken: user.idToken,
+    //   };
+    //   console.log(user);
+    //   this.extAuthChangeSub.next(user);
+    //   this.isExternalAuth = true;
+    //   this.externalLogin(externalAuth).subscribe({
+    //     next: (res) => {
+    //       localStorage.setItem('token', res.token);
+    //       this.sendAuthStateChangeNotification(res.isAuthSuccessful);
+    //       this.router.navigate(['/home']);
+    //     },
+    //     error: () => {
+    //       this.signOutExternal();
+    //     },
+    //   });
+    // });
   }
 
   createUser(user: User): Observable<{ id: string }> {
@@ -52,6 +56,10 @@ export class UserService {
 
   loginUser(user: User): Observable<{ id: string }> {
     return this.http.post<{ id: string }>(this.apiUrlLogin, user);
+  }
+
+  sendOtp(id: number): Observable<{ otp: string }> {
+    return this.http.post<{ otp: string }>(this.apiUrSendOtp, id);
   }
 
   public signInWithGoogle = () => {
@@ -68,7 +76,7 @@ export class UserService {
 
   public externalLogin = (body: ExternalAuthDto) => {
     return this.http.post<AuthResponseDto>(this.apiGoogleSignUp, body, {
-      withCredentials: true,
+      withCredentials: false,
     });
   };
 }
