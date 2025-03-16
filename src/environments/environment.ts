@@ -7,4 +7,5 @@ export const environment = {
   apiLUserLogin: 'https://localhost:7066/api/login',
   apiGoogle: 'https://localhost:7066/api/googlesignin',
   XApiKey: '^[)l4C0lCHHe4:5F-coU=:Or|bv|/5nD',
+  // XApiKey: '^[)l4C0lCHHe4:5F-coU=:Or|bffffv|/5nD',
 };
